@@ -1,14 +1,14 @@
 package it.unibs.arnaldo.codiceFiscale;
 
+import mylib.ControlloDati;
+
 import java.util.ArrayList;
 import java.util.Date;
 
 public class Persona {
 
-
-
     //COSTANTI
-
+    public static final int DIM_COGNOME_NOME = 3;
 
      //ATTRIBUTI
     private String nome;
@@ -116,24 +116,45 @@ public class Persona {
     }
 
     private String calcolaLettereCognome(){
+
+        //rendo maiuscole le lettere del cognome
         String cognome_maiuscolo = this.cognome.toUpperCase();
-        int lunghezza_cognome = cognome.length();
+
+        //creo un array di caratteri contenente le lettere del cognome
         char [] cognome = cognome_maiuscolo.toCharArray();
-        String lettere_cognome="XXX";
+
+        //creo un array di caratteri, con le lettere che rappresenteranno il cognome
+        char [] lettere_cognome = new char[DIM_COGNOME_NOME];
+
+        //inizializzo l'array di caratteri con le lettere di default
+        lettere_cognome[0] = 'X';
+        lettere_cognome[1] = 'X';
+        lettere_cognome[2] = 'X';
+
+        //creo un contatore che conta le lettere adatte per rappresentare il cognome
         int numero_lettere = 0;
 
         //in questo primo ciclo cerco di riempire le 3 lettere con delle consonanti
-        for (int i=0; i<lunghezza_cognome && numero_lettere != 3; i++){
-            if(seConsonante(cognome[i]) && !seNumero(cognome[i])){
-                lettere_cognome += cognome[i];
+        for (int i=0; i<cognome.length && numero_lettere != 3; i++){
+            if(ControlloDati.seConsonante(cognome[i])){
+                lettere_cognome[numero_lettere] = cognome[i];
                 numero_lettere++;
             }
         }
-
-        if(numero_lettere != 3){
-
+        //se le consonanti sono meno di 3, passo alle vocali
+        for(int i=0; i<cognome.length && numero_lettere != 3; i++){
+            if(ControlloDati.seVocale(cognome[i])){
+                lettere_cognome[numero_lettere] = cognome[i];
+                numero_lettere++;
+            }
         }
-        return "";
+        //infine creo la stringa finale da passare
+        String tre_lettere = "";
+        //itero il ciclo 3 volte
+        for (int i=0; i<DIM_COGNOME_NOME; i++)
+            //accodo alla stringa le lettere
+            tre_lettere += lettere_cognome[i];
+        return tre_lettere;
     }
 
     public String calcolaLettereNome(){
@@ -146,7 +167,7 @@ public class Persona {
 
         //conto quante consonanti sono presenti nel nome
         for(int i=0;i<nome_maiuscolo.length();i++){
-            if(this.seConsonante(nome_maiuscolo.charAt(i))){//se è una consonante
+            if(ControlloDati.seConsonante(nome_maiuscolo.charAt(i))){//se è una consonante
                 consonanti_trovate=consonanti_trovate.concat(""+nome_maiuscolo.charAt(i));
                 num_consonanti+=1;//num_consonanti++;
             }
@@ -171,7 +192,7 @@ public class Persona {
            lettere_nome= consonanti_trovate;
 
            for(int volte=0,j=0;volte<num_vocali_necessarie && j<nome_maiuscolo.length();j++) {//j+=1
-                if(this.seVocale(nome_maiuscolo.charAt(j))){
+                if(ControlloDati.seVocale(nome_maiuscolo.charAt(j))){
                     lettere_nome=lettere_nome.concat(""+nome_maiuscolo.charAt(j));
                     volte+=1;//volte++
                 }
@@ -244,52 +265,6 @@ public class Persona {
     }
 
     public boolean confrontaCodiciFiscali(String codice_da_comparare){
-        return false;
-    }
-
-    private boolean seVocale(char lettera) {
-        switch (lettera) {
-            case 'A':
-            case 'E':
-            case 'I':
-            case 'O':
-            case 'U':
-                return true;
-            default:return false;
-        }
-    }
-
-    private boolean seConsonante(char lettera){
-        switch(lettera){
-            case 'B':
-            case 'C':
-            case 'D':
-            case 'F':
-            case 'G':
-            case 'H':
-            case 'J':
-            case 'K':
-            case 'L':
-            case 'M':
-            case 'N':
-            case 'P':
-            case 'Q':
-            case 'R':
-            case 'S':
-            case 'T':
-            case 'V':
-            case 'W':
-            case 'X':
-            case 'Y':
-            case 'Z':
-                return true;
-            default: return false;//se non è una consonante
-        }
-    }
-
-    private boolean seNumero(char lettera){
-        if(Character.isDigit(lettera))
-            return true;
         return false;
     }
 }
