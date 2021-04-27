@@ -9,6 +9,7 @@ public class Persona {
 
     //COSTANTI
     public static final int DIM_COGNOME_NOME = 3;
+    public static final int DIM_CODICE_FISCALE = 16;
 
      //ATTRIBUTI
     private String nome;
@@ -111,7 +112,7 @@ public class Persona {
         codice += calcolaLettereNome();
         codice += calcolaCaratteriNascita();
         codice += calcolaCaratteriLuogo();
-        codice += calcolaCarattereControllo();
+        codice += calcolaCarattereControllo(codice);
         return codice;
     }
 
@@ -208,7 +209,6 @@ public class Persona {
                 lettere_nome=lettere_nome.concat("X");
             }
         }
-
         return lettere_nome;
     }
 
@@ -260,11 +260,212 @@ public class Persona {
         return "";
     }
 
-    private String calcolaCarattereControllo(){
-        return "";
+    private String calcolaCarattereControllo(String codice_fiscale_senza_controllo){
+        char [] codice_15_caratteri = codice_fiscale_senza_controllo.toCharArray();
+        int resto, somma=0;
+        for (int i=0; i<DIM_CODICE_FISCALE-1; i++){
+            if(i%2 == 0){
+                somma += valoreControlloPari(codice_15_caratteri[i]);
+            }else if(i%2 != 0){
+                somma += valoreControlloDispari(codice_15_caratteri[i]);
+            }
+        }
+        resto = somma%26;
+        char carattere_controllo = valoreCarattereControllo(resto);
+        String carattere_finale = "";
+        carattere_finale += carattere_controllo;
+        return carattere_finale;
     }
 
     public boolean confrontaCodiciFiscali(String codice_da_comparare){
         return false;
+    }
+
+    private int valoreControlloPari(char carattere){
+
+        if(Character.isDigit(carattere)){
+            return (int)carattere;
+        }
+
+        switch (carattere){
+
+            case 'A':
+                return 0;
+            case 'B':
+                return 1;
+            case 'C':
+                return 2;
+            case 'D':
+                return 3;
+            case 'E':
+                return 4;
+            case 'F':
+                return 5;
+            case 'G':
+                return 6;
+            case 'H':
+                return 7;
+            case 'I':
+                return 8;
+            case 'J':
+                return 9;
+            case 'K':
+                return 10;
+            case 'L':
+                return 11;
+            case 'M':
+                return 12;
+            case 'N':
+                return 13;
+            case 'O':
+                return 14;
+            case 'P':
+                return 15;
+            case 'Q':
+                return 16;
+            case 'R':
+                return 17;
+            case 'S':
+                return 18;
+            case 'T':
+                return 19;
+            case 'U':
+                return 20;
+            case 'V':
+                return 21;
+            case 'W':
+                return 22;
+            case 'X':
+                return 23;
+            case 'Y':
+                return 24;
+            case 'Z':
+                return 25;
+            default: return -1;
+        }
+    }
+    private int valoreControlloDispari(char carattere){
+        switch (carattere){
+            case 'A':
+            case '0':
+                return 1;
+            case 'B':
+            case '1':
+                return 0;
+            case 'C':
+            case '2':
+                return 5;
+            case 'D':
+            case '3':
+                return 7;
+            case 'E':
+            case '4':
+                return 9;
+            case 'F':
+            case '5':
+                return 13;
+            case 'G':
+            case '6':
+                return 15;
+            case 'H':
+            case '7':
+                return 17;
+            case 'I':
+            case'8':
+                return 19;
+            case 'J':
+            case '9':
+                return 21;
+            case 'K':
+                return 2;
+            case 'L':
+                return 4;
+            case 'M':
+                return 18;
+            case 'N':
+                return 20;
+            case 'O':
+                return 11;
+            case 'P':
+                return 3;
+            case 'Q':
+                return 6;
+            case 'R':
+                return 8;
+            case 'S':
+                return 12;
+            case 'T':
+                return 14;
+            case 'U':
+                return 16;
+            case 'V':
+                return 10;
+            case 'W':
+                return 22;
+            case 'X':
+                return 25;
+            case 'Y':
+                return 24;
+            case 'Z':
+                return 23;
+            default: return -1;
+        }
+    }
+    private char valoreCarattereControllo(int resto){
+        switch (resto){
+            case 0:
+                return 'A';
+            case 1:
+                return 'B';
+            case 2:
+                return 'C';
+            case 3:
+                return 'D';
+            case 4:
+                return 'E';
+            case 5:
+                return 'F';
+            case 6:
+                return 'G';
+            case 7:
+                return 'H';
+            case 8:
+                return 'I';
+            case 9:
+                return 'J';
+            case 10:
+                return 'K';
+            case 11:
+                return 'L';
+            case 12:
+                return 'M';
+            case 13:
+                return 'N';
+            case 14:
+                return 'O';
+            case 15:
+                return 'P';
+            case 16:
+                return 'Q';
+            case 17:
+                return 'R';
+            case 18:
+                return 'S';
+            case 19:
+                return 'T';
+            case 20:
+                return 'U';
+            case 21:
+                return 'V';
+            case 22:
+                return 'W';
+            case 23:
+                return 'X';
+            case 24:
+                return 'Y';
+            case 25:
+                return 'Z';
+            default: return '0';
+        }
     }
 }
