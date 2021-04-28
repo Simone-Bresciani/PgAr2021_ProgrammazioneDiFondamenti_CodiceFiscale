@@ -5,107 +5,177 @@ import mylib.ControlloDati;
 import java.util.ArrayList;
 import java.util.Date;
 
+/**
+ * <p>
+ *     La classe <strong>Persona</strong> intende rappresentare una Persona(uomo o donna) e contiene
+ *     i principali dati anagrafici che contraddistinguno un singolo individuo.
+ *     Questa classe è stata ideata <strong>perlopiù</strong> per ricavare il codice fiscale di una persona , data una serie
+ *     di informazioni necessarie per la sua creazione.
+ *     <br>Inoltre Persona, utilizza la classe istanziabile {@link Comune} (di nascita) come informazione necessaria
+ *     per la generazione del suo codice fiscale.
+ * </p>
+ *
+ *  @author Gruppo Programmazione di Fondamenti
+ *  @version 1.0
+ *
+ * @see Comune
+ **/
 public class Persona {
 
     //COSTANTI
-    public static final int DIM_COGNOME_NOME = 3;
-    public static final int DIM_CODICE_FISCALE = 16;
+    private static final int DIM_COGNOME_NOME = 3;
+    private static final int DIM_CODICE_FISCALE = 16;
 
-     //ATTRIBUTI
+    //ATTRIBUTI
     private String nome;
     private String cognome;
     private char sesso;
     private Date data_di_nascita;
     private Comune comune_di_nascita;
-    private char carattere_controllo;
+    //private char carattere_controllo;
     private String codice_fiscale;
 
     //costruttore
-    public Persona(String nome, String cognome, char sesso, Date data_di_nascita, Comune comune_di_nascita, char carattere_controllo, String codice_fiscale) {
+    /**
+     * <h5>Descrizione Costruttore Classe:</h5>
+     *  <p>
+     *  	Creazione di una Persona in base a cinque parametri da specificare: nome,cognome,sesso,data di nascita e
+     *      comune di nascita.
+     * 	    <b>N.B.</b>La classe Persona gode di cinque attributi tra cui un attributo di tipo/classe Comune
+     * 	    che indica il comune di nascita di tale persona.
+     * </p>
+     *
+     * @param nome Una Stringa che rappresenta il nome della Persona
+     * @param cognome Una Stringa che rappresenta il Cognome della Persona
+     * @param sesso Una Carattere che rappresenta il Sesso della Persona
+     * @param data_di_nascita Rappresenta un'istanza di classe {@link Date} indicante la data di nascita della Persona
+     * @param comune_di_nascita Rappresenta un'istanza di classe {@link Comune} indicante il comune di nascita della Persona
+     *
+     * @see Comune
+     * @see Date
+     * */
+    public Persona(String nome, String cognome, char sesso, Date data_di_nascita, Comune comune_di_nascita) {
         this.nome = nome;
         this.cognome = cognome;
         this.sesso = sesso;
         this.data_di_nascita = data_di_nascita;
         this.comune_di_nascita = comune_di_nascita;
-        this.carattere_controllo = carattere_controllo;
-        this.codice_fiscale = codice_fiscale;
+        //this.carattere_controllo = carattere_controllo;
+        //this.codice_fiscale = codice_fiscale;
     }
 
-    public Persona(String _nome){
+   /* public Persona(String _nome){
         this.nome=_nome;
-    }
+    }*/
 
     //Getters and Setters
+
+    /**
+     * Restituisce il nome della Persona
+     * @return Una Stringa che specifica il nome della Persona.
+     */
     public String getNome() {
         return nome;
     }
 
+    /**
+     * Imposta il nome della Persona
+     * @param nome Rappresenta il nome della Persona
+     */
     public void setNome(String nome) {
         this.nome = nome;
     }
 
+    /**
+     * Restituisce il cognome della Persona
+     * @return Una Stringa che specifica il cognnome della Persona.
+     */
     public String getCognome() {
         return cognome;
     }
 
+    /**
+     * Imposta il cognome della Persona
+     * @param cognome Rappresenta il cognome della Persona
+     */
     public void setCognome(String cognome) {
         this.cognome = cognome;
     }
 
+    /**
+     * Restituisce il sesso della Persona
+     * @return Un carattere che specifica il sesso della Persona.
+     */
     public char getSesso() {
         return sesso;
     }
 
+    /**
+     * Imposta il sesso della Persona
+     * @param sesso Rappresenta il sesso della Persona
+     */
     public void setSesso(char sesso) {
         this.sesso = sesso;
     }
 
+    /**
+     * Restituisce la data di nascita della Persona
+     * @return Una {@link Date} che specifica la data di nascita della Persona.
+     */
     public Date getData_di_nascita() {
         return data_di_nascita;
     }
 
+    /**
+     * Imposta la data di nascita della Persona
+     * @param data_di_nascita Rappresenta la data di nascita della Persona
+     *
+     * @see Date
+     */
     public void setData_di_nascita(Date data_di_nascita) {
         this.data_di_nascita = data_di_nascita;
     }
 
+    /**
+     * Restituisce il comune di nascita della Persona
+     * @return Un {@link Comune} che specifica il comune di nascita della Persona.
+     */
     public Comune getComune_di_nascita() {
         return comune_di_nascita;
     }
 
+    /**
+     * Imposta il comune di nascita della Persona
+     * @param comune_di_nascita Rappresenta il comune di nascita della Persona
+     *
+     * @see Comune
+     */
     public void setComune_di_nascita(Comune comune_di_nascita) {
         this.comune_di_nascita = comune_di_nascita;
     }
 
-    public char getCarattere_controllo() {
+   /* public char getCarattere_controllo() {
         return carattere_controllo;
     }
 
     public void setCarattere_controllo(char carattere_controllo) {
         this.carattere_controllo = carattere_controllo;
-    }
+    }*/
 
+    /*
     public String getCodice_fiscale() {
         return codice_fiscale;
     }
 
     public void setCodice_fiscale(String codice_fiscale) {
         this.codice_fiscale = codice_fiscale;
-    }
+    }*/
 
-    //ToString
-    @Override
-    public String toString() {
-        return "Persona{" +
-                "nome='" + nome + '\'' +
-                ", cognome='" + cognome + '\'' +
-                ", sesso=" + sesso +
-                ", data_di_nascita=" + data_di_nascita +
-                ", comune_di_nascita=" + comune_di_nascita +
-                ", carattere_controllo=" + carattere_controllo +
-                ", codice_fiscale='" + codice_fiscale + '\'' +
-                '}';
-    }
-
+    /**
+     * Calcola il codice fiscale di un'istanza di classe Persona sulla base di una serie di dati anagrafici.
+     *
+     * @return Una Stringa maiuscola rappresentante il codice fiscale di un'istanza di classe Persona
+     * */
     public String calcolaCodiceFiscale(){
         String codice = "";
         codice += calcolaLettereCognome();
@@ -116,6 +186,12 @@ public class Persona {
         return codice;
     }
 
+    /*
+    * Metodo privato utilizzato in concomitanza con calcolaCodiceFiscale().
+    * Il suo scopo è quello di determinare le tre lettere rapppresentanti il cognome all'interno del codice
+    * fiscale di un'istanza di classe Persona.
+    * Ritorna una stringa di tre caratteri
+    * */
     private String calcolaLettereCognome(){
 
         //rendo maiuscole le lettere del cognome
@@ -158,13 +234,23 @@ public class Persona {
         return tre_lettere;
     }
 
-    public String calcolaLettereNome(){
-        int num_consonanti=0;
-        String lettere_nome="";
-        String nome_maiuscolo=this.nome.toUpperCase();
+    /*
+     * Metodo privato utilizzato in concomitanza con calcolaCodiceFiscale().
+     * Il suo scopo è quello di determinare le tre lettere rapppresentanti il nome all'interno del codice
+     * fiscale di un'istanza di classe Persona.
+     * Ritorna una stringa di tre caratteri
+     * */
+    private String calcolaLettereNome(){
 
-        //variabile stringa di supporto
+        //Stringa che conterrà le 3 lettere costituenti il nome all'interno del codice fiscale
+        String lettere_nome="";
+
+        //Stringa di supporto-->indica quali consonanti sono presenti nel nome
         String consonanti_trovate="";
+        int num_consonanti=0;
+
+        //Conversione in maiuscolo del nome dellan Persona. Volendo si potrebbe riaggiornare direttamente il nome della persona (l'attributo) o qui o nel costruttore direttamente
+        String nome_maiuscolo=this.nome.toUpperCase();
 
         //conto quante consonanti sono presenti nel nome
         for(int i=0;i<nome_maiuscolo.length();i++){
@@ -174,7 +260,6 @@ public class Persona {
             }
         }
 
-       // return consonanti_trovate;
         //se il numero di consonanti è maggiore o uguale a 4 allora si prende la prima ,la terza e la quarta consonante
         if(num_consonanti>=4){
            lettere_nome=lettere_nome.concat(""+ consonanti_trovate.charAt(0)+ consonanti_trovate.charAt(2)+ consonanti_trovate.charAt(3));
@@ -186,13 +271,15 @@ public class Persona {
             lettere_nome= consonanti_trovate;
         }
 
-
+        //se il numero di consonanti è minore di 3 ,di quello previsto, si contano anche le vocali in ordine
         if(num_consonanti<3){
            int num_vocali_necessarie=3-num_consonanti;
 
            lettere_nome= consonanti_trovate;
 
-           for(int volte=0,j=0;volte<num_vocali_necessarie && j<nome_maiuscolo.length();j++) {//j+=1
+           //in base a quante vocali sono necessarie per arrivare a 3 lettere estrapolo le prime vocali presenti nel nome,sempre in ordine
+           //N.B.-->j è un contatore usato per scandire nome_maiuscolo; volte --> contatore che viene aggiornato se trovata una vocale
+            for(int volte=0,j=0;volte<num_vocali_necessarie && j<nome_maiuscolo.length();j++) {//j+=1
                 if(ControlloDati.seVocale(nome_maiuscolo.charAt(j))){
                     lettere_nome=lettere_nome.concat(""+nome_maiuscolo.charAt(j));
                     volte+=1;//volte++
@@ -200,6 +287,7 @@ public class Persona {
            }
         }
 
+        //se invece il nome della persona ha meno di tre caratteri si aggiungono delle X a completamento dei caratteri costituenti il nome
         if(nome_maiuscolo.length()<3){
             int numero_x_necessarie=3-nome_maiuscolo.length();
 
@@ -212,9 +300,11 @@ public class Persona {
         return lettere_nome;
     }
 
-    /**
-     *
-     * @return la stringa che corrisponde alla data di nascita tenendo in considerazione il sesso dell'individuo
+    /*
+     * Metodo privato utilizzato in concomitanza con calcolaCodiceFiscale().
+     * Il suo scopo è quello di determinare i 5 caratteri rapppresentanti la data di nascita all'interno del codice
+     * fiscale di un'istanza di classe Persona(di un individuo) tenendo in considerazione il sesso dell'individuo.
+     * Ritorna una stringa di cinque caratteri.
      */
     private String calcolaCaratteriNascita(){
         String data_di_nascita = "";
@@ -256,10 +346,22 @@ public class Persona {
         return data_di_nascita;
     }
 
+    /*
+     * Metodo privato utilizzato in concomitanza con calcolaCodiceFiscale().
+     * Il suo scopo è quello di determinare i 4 caratteri rapppresentantiil luogo di nascita all'interno del codice
+     * fiscale di un'istanza di classe Persona(di un individuo).
+     * Ritorna una stringa di quattro caratteri.
+     */
     private String calcolaCaratteriLuogo(){
-        return "";
+        return this.comune_di_nascita.getCodice();
     }
 
+    /*
+     * Metodo privato utilizzato in concomitanza con calcolaCodiceFiscale().
+     * Il suo scopo è quello di determinare il carattere di controllo presente all'interno di ogni codice
+     * fiscale di un'istanza di classe Persona(di un individuo) come ultimo carattere/lettera.
+     * Ritorna una stringa di un carattere./un char
+     */
     private String calcolaCarattereControllo(String codice_fiscale_senza_controllo){
         char [] codice_15_caratteri = codice_fiscale_senza_controllo.toCharArray();
         int resto, somma=0;
@@ -277,10 +379,24 @@ public class Persona {
         return carattere_finale;
     }
 
+    /**
+     * Confronata il codice fiscale di un'istanza di classe Persona sulla base di un dato codice fiscale.
+     *
+     * @param codice_da_comparare Una Stringa rappresentante un codice fiscale da confrontare con quello dell'istanza di classe Persona
+     * @return Un boolean rappresentante l'esito del confronto: <strong>true</strong> se i codici fiscali confrontati
+     *          sono identici, <strong>false</strong> altrimenti.
+     * */
     public boolean confrontaCodiciFiscali(String codice_da_comparare){
-        return false;
+        return this.calcolaCodiceFiscale().equals(codice_da_comparare);
     }
 
+    /*
+     * Metodo privato utilizzato in concomitanza con calcolaCarattereControllo().
+     * Il suo scopo è quello di determinare l'intero corrispondente ad un determinato char in posizione
+     * pari all'interno del "futuro" codice fiscale secondo una tabulazione fissata dal Ministero delle
+     * Finanze Italiano.
+     * Ritorna un intero necessario per la determinazione del carattere di controllo.
+     */
     private int valoreControlloPari(char carattere){
 
         if(Character.isDigit(carattere)){
@@ -344,6 +460,14 @@ public class Persona {
             default: return -1;
         }
     }
+
+    /*
+     * Metodo privato utilizzato in concomitanza con calcolaCarattereControllo().
+     * Il suo scopo è quello di determinare l'intero corrispondente ad un determinato char in posizione
+     * dispari all'interno del "futuro" codice fiscale secondo una tabulazione fissata dal Ministero delle
+     * Finanze Italiano.
+     * Ritorna un intero necessario per la determinazione del carattere di controllo.
+     */
     private int valoreControlloDispari(char carattere){
         switch (carattere){
             case 'A':
@@ -411,6 +535,16 @@ public class Persona {
             default: return -1;
         }
     }
+
+    /*
+     * Metodo privato utilizzato in concomitanza con calcolaCarattereControllo().
+     * Il suo scopo è quello di determinare il carattere corrispondente ad un determinato resto
+     * secondo una tabulazione fissata dal Ministero delle Finanze Italiano.
+     * Il suo utilizzo è logicamente corretto se posticipato all'uso di valoreControlloPari e valoreControlloDispari:
+     * il resto della divisione ottenuto in calcolaCarattereControllo,fornirà il codice identificativo, ottenuto da
+     * una tabella di conversione stabilita.
+     * Ritorna un char necessario che determina il carattere di controllo.
+     */
     private char valoreCarattereControllo(int resto){
         switch (resto){
             case 0:
@@ -467,5 +601,23 @@ public class Persona {
                 return 'Z';
             default: return '0';
         }
+    }
+
+    /**
+     * Restituisce una stringa descrittiva di un'istanza della classe Persona
+     * @return Una stringa che specifica il valore dei vari attributi di un'istanza della classe Persona.
+     */
+    @Override
+    public String toString() {
+        return "Persona{" +
+                "nome='" + nome + '\'' +
+                ", cognome='" + cognome + '\'' +
+                ", sesso=" + sesso +
+                ", data_di_nascita=" + data_di_nascita +
+                ", comune_di_nascita=" + comune_di_nascita +
+                //", carattere_controllo=" + carattere_controllo +
+                //", codice_fiscale='" + codice_fiscale + '\'' +
+                ", codice_fiscale='" + this.calcolaCodiceFiscale()+'\''+
+                '}';
     }
 }
