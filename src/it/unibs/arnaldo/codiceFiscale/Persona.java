@@ -22,15 +22,11 @@ import java.util.Date;
  **/
 public class Persona {
 
-    //COSTANTI
-    private static final int DIM_COGNOME_NOME = 3;
-    private static final int DIM_CODICE_FISCALE = 16;
-
     //ATTRIBUTI
     private String nome;
     private String cognome;
     private char sesso;
-    private Date data_di_nascita;
+    private String data_di_nascita;
     private Comune comune_di_nascita;
     //private char carattere_controllo;
     private String codice_fiscale;
@@ -48,13 +44,12 @@ public class Persona {
      * @param nome Una Stringa che rappresenta il nome della Persona
      * @param cognome Una Stringa che rappresenta il Cognome della Persona
      * @param sesso Una Carattere che rappresenta il Sesso della Persona
-     * @param data_di_nascita Rappresenta un'istanza di classe {@link Date} indicante la data di nascita della Persona
+     * @param data_di_nascita Una stringa che rappresenta la data di nascita della Persona
      * @param comune_di_nascita Rappresenta un'istanza di classe {@link Comune} indicante il comune di nascita della Persona
      *
      * @see Comune
-     * @see Date
      * */
-    public Persona(String nome, String cognome, char sesso, Date data_di_nascita, Comune comune_di_nascita) {
+    public Persona(String nome, String cognome, char sesso, String data_di_nascita, Comune comune_di_nascita) {
         this.nome = nome;
         this.cognome = cognome;
         this.sesso = sesso;
@@ -66,6 +61,12 @@ public class Persona {
 
    /* public Persona(String _nome){
         this.nome=_nome;
+    }*/
+
+    /*
+    public Persona(char _sesso, String _data_di_nascita){
+        this.sesso = _sesso;
+        this.data_di_nascita = _data_di_nascita;
     }*/
 
     //Getters and Setters
@@ -120,19 +121,17 @@ public class Persona {
 
     /**
      * Restituisce la data di nascita della Persona
-     * @return Una {@link Date} che specifica la data di nascita della Persona.
+     * @return Una stringa che specifica la data di nascita della Persona.
      */
-    public Date getData_di_nascita() {
+    public String getData_di_nascita() {
         return data_di_nascita;
     }
 
     /**
      * Imposta la data di nascita della Persona
      * @param data_di_nascita Rappresenta la data di nascita della Persona
-     *
-     * @see Date
      */
-    public void setData_di_nascita(Date data_di_nascita) {
+    public void setData_di_nascita(String data_di_nascita) {
         this.data_di_nascita = data_di_nascita;
     }
 
@@ -201,7 +200,7 @@ public class Persona {
         char [] cognome = cognome_maiuscolo.toCharArray();
 
         //creo un array di caratteri, con le lettere che rappresenteranno il cognome
-        char [] lettere_cognome = new char[DIM_COGNOME_NOME];
+        char [] lettere_cognome = new char[Costanti.DIM_COGNOME_NOME];
 
         //inizializzo l'array di caratteri con le lettere di default
         lettere_cognome[0] = 'X';
@@ -228,7 +227,7 @@ public class Persona {
         //infine creo la stringa finale da passare
         String tre_lettere = "";
         //itero il ciclo 3 volte
-        for (int i=0; i<DIM_COGNOME_NOME; i++)
+        for (int i=0; i<Costanti.DIM_COGNOME_NOME; i++)
             //accodo alla stringa le lettere
             tre_lettere += lettere_cognome[i];
         return tre_lettere;
@@ -306,41 +305,57 @@ public class Persona {
      * fiscale di un'istanza di classe Persona(di un individuo) tenendo in considerazione il sesso dell'individuo.
      * Ritorna una stringa di cinque caratteri.
      */
-    private String calcolaCaratteriNascita(){
-        String data_di_nascita = "";
-        int anno_di_nascita = this.data_di_nascita.getYear();   //getYear prende la data e sottrae 1900
-        int mese_di_nascita = this.data_di_nascita.getMonth(); //getMonth ritorna un numero tra 0 e 11 rappresentante il mese
-        int giorno_di_nascita = this.data_di_nascita.getDate(); //getDate ritorna un numero tra 1 e 31 rappresentante il giorno
-        char sesso = this.sesso;
 
-        if (anno_di_nascita >= 100) anno_di_nascita -= 100;  //se va oltre il secolo allora sottrae 100
-        if (anno_di_nascita <= 9 ) data_di_nascita += "0" + anno_di_nascita; //se rimane una cifra aggiunge uno zero
-        else data_di_nascita += anno_di_nascita; //altrimenti stampa le due cifre significative rimaste
+    private String calcolaCaratteriNascita(){
+        String data_di_nascita = "";        //creo la stringa che il metodo ritorna e che concatena al codice fiscale
+        char sesso = this.sesso;
+        String anno_di_nascita = this.data_di_nascita.substring(2,4);   //Prende le ultime due cifre dell'anno come stringa
+        String mese_di_nascita = this.data_di_nascita.substring(5,7);   //Prende i due caratteri riferiti al mese come stringa(considera già l'eventuale 0)
+        String giorno_di_nascita = this.data_di_nascita.substring(8,10);    //Prende i due caratteri riferiti al giorno come stringa(considera già l'eventuale 0)
+
+        data_di_nascita += anno_di_nascita; //aggiungo le cifre dell'anno che vanno già bene così
+
+        int mese = Integer.parseInt(mese_di_nascita); //trasforma la stringa corrispondente al mese in un intero che va da 1 a 12
 
         /*
         Aggiunta della lettera corretta corrispondente al mese di nascita
          */
-        if (mese_di_nascita == 0) data_di_nascita += "A";
-        else if (mese_di_nascita == 1) data_di_nascita += "B";
-        else if (mese_di_nascita == 2) data_di_nascita += "C";
-        else if (mese_di_nascita == 3) data_di_nascita += "D";
-        else if (mese_di_nascita == 4) data_di_nascita += "E";
-        else if (mese_di_nascita == 5) data_di_nascita += "H";
-        else if (mese_di_nascita == 6) data_di_nascita += "L";
-        else if (mese_di_nascita == 7) data_di_nascita += "M";
-        else if (mese_di_nascita == 8) data_di_nascita += "P";
-        else if (mese_di_nascita == 9) data_di_nascita += "R";
-        else if (mese_di_nascita == 10) data_di_nascita += "S";
-        else if (mese_di_nascita == 11) data_di_nascita += "T";
+        switch (mese) {
+            case 1: data_di_nascita += "A";
+                    break;
+            case 2: data_di_nascita += "B";
+                    break;
+            case 3: data_di_nascita += "C";
+                    break;
+            case 4: data_di_nascita += "D";
+                    break;
+            case 5: data_di_nascita += "E";
+                    break;
+            case 6: data_di_nascita += "H";
+                    break;
+            case 7: data_di_nascita += "L";
+                    break;
+            case 8: data_di_nascita += "M";
+                    break;
+            case 9: data_di_nascita += "P";
+                    break;
+            case 10: data_di_nascita += "R";
+                    break;
+            case 11: data_di_nascita += "S";
+                    break;
+            case 12: data_di_nascita += "T";
+                    break;
+        }
 
+        int giorno = Integer.parseInt(giorno_di_nascita); //trasforma la stringa corrispondente al giorno in un intero che va da 1 a 31
 
         if (sesso == 'M') {
-            if (giorno_di_nascita <= 9) data_di_nascita += "0";   //se minore di 10 aggiunge uno zero
-            data_di_nascita += giorno_di_nascita;
+            if (giorno <= 9) data_di_nascita += "0";   //se minore di 10 aggiunge uno zero
+            data_di_nascita += giorno;
         }
         else if (sesso == 'F'){
-            giorno_di_nascita += Costanti.NUMERO_DONNA;    //se si tratta di una donna allora si aggiunge 40 al giorno
-            data_di_nascita += giorno_di_nascita;
+            giorno += Costanti.NUMERO_DONNA;    //se si tratta di una donna allora si aggiunge 40 al giorno (non c'è dunque bisogno di fare il controllo se il numero è ad una singola cifra
+            data_di_nascita += giorno;
         }
 
         return data_di_nascita;
@@ -365,7 +380,7 @@ public class Persona {
     private String calcolaCarattereControllo(String codice_fiscale_senza_controllo){
         char [] codice_15_caratteri = codice_fiscale_senza_controllo.toCharArray();
         int resto, somma=0;
-        for (int i=0; i<DIM_CODICE_FISCALE-1; i++){
+        for (int i=0; i<Costanti.DIM_CODICE_FISCALE-1; i++){
             if(i%2 == 0){
                 somma += valoreControlloPari(codice_15_caratteri[i]);
             }else if(i%2 != 0){
