@@ -309,6 +309,10 @@ public class Persona {
     private String calcolaCaratteriNascita(){
         String data_di_nascita = "";        //creo la stringa che il metodo ritorna e che concatena al codice fiscale
         char sesso = this.sesso;
+
+        //la stringa data_di_nascita è nel formato "YYYY-MM-DD"
+        //col metodo substring riesco a ricavare le sottostringhe che mi servono in base alla posizione dei caratteri
+
         String anno_di_nascita = this.data_di_nascita.substring(2,4);   //Prende le ultime due cifre dell'anno come stringa
         String mese_di_nascita = this.data_di_nascita.substring(5,7);   //Prende i due caratteri riferiti al mese come stringa(considera già l'eventuale 0)
         String giorno_di_nascita = this.data_di_nascita.substring(8,10);    //Prende i due caratteri riferiti al giorno come stringa(considera già l'eventuale 0)
