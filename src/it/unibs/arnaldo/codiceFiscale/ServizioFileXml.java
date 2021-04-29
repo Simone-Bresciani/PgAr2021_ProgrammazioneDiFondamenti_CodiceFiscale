@@ -1,5 +1,5 @@
-package mylib;
-import it.unibs.arnaldo.codiceFiscale.Persona;
+package it.unibs.arnaldo.codiceFiscale;
+
 
 import javax.xml.stream.XMLInputFactory;
 import javax.xml.stream.XMLStreamException;
@@ -12,7 +12,7 @@ public class ServizioFileXml {
     //Costanti
     private static final String ERRORE_INIZIALIZZAZIONE_READER="Errore nell'inizializzazione del reader: ";
     private static final String ERRORE_LETTURA="Errore durante la lettura del file %s.Per ulteriori informazioni: ";
-
+/*
     //da finire
     public static ArrayList<Persona> leggiPersone(String filename){
         XMLInputFactory xmlif = null;
@@ -53,5 +53,5 @@ public class ServizioFileXml {
             System.out.println(String.format(ERRORE_LETTURA,filename));
             System.out.println(e.getMessage());
         }
-    }
+    }*/
 }
