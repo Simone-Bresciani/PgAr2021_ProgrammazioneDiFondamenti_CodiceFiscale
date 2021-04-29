@@ -7,6 +7,7 @@ public class Main {
         //Persona persona= new Persona('M', "2002-01-01");
         //System.out.println(persona.calcolaCaratteriNascita());
 
+
         System.out.println("Ciao");
     }
 }

@@ -2,9 +2,6 @@ package it.unibs.arnaldo.codiceFiscale;
 
 import mylib.ControlloDati;
 
-import java.util.ArrayList;
-import java.util.Date;
-
 /**
  * <p>
  *     La classe <strong>Persona</strong> intende rappresentare una Persona(uomo o donna) e contiene
@@ -325,29 +322,29 @@ public class Persona {
         Aggiunta della lettera corretta corrispondente al mese di nascita
          */
         switch (mese) {
-            case 1: data_di_nascita += "A";
+            case 1: data_di_nascita += "A";   //Gennaio
                     break;
-            case 2: data_di_nascita += "B";
+            case 2: data_di_nascita += "B";   //Febbraio 28
                     break;
-            case 3: data_di_nascita += "C";
+            case 3: data_di_nascita += "C";   //Marzo
                     break;
-            case 4: data_di_nascita += "D";
+            case 4: data_di_nascita += "D";   //Aprile 30
                     break;
-            case 5: data_di_nascita += "E";
+            case 5: data_di_nascita += "E";   //Maggio
                     break;
-            case 6: data_di_nascita += "H";
+            case 6: data_di_nascita += "H";   //Giugno 30
                     break;
-            case 7: data_di_nascita += "L";
+            case 7: data_di_nascita += "L";   //Luglio
                     break;
-            case 8: data_di_nascita += "M";
+            case 8: data_di_nascita += "M";   //Agosto
                     break;
-            case 9: data_di_nascita += "P";
+            case 9: data_di_nascita += "P";   //Settembre 30
                     break;
-            case 10: data_di_nascita += "R";
+            case 10: data_di_nascita += "R";  //Ottobre
                     break;
-            case 11: data_di_nascita += "S";
+            case 11: data_di_nascita += "S";  //Novembre 30
                     break;
-            case 12: data_di_nascita += "T";
+            case 12: data_di_nascita += "T";  //Dicembre
                     break;
         }
 
@@ -381,7 +378,7 @@ public class Persona {
      * fiscale di un'istanza di classe Persona(di un individuo) come ultimo carattere/lettera.
      * Ritorna una stringa di un carattere./un char
      */
-    private String calcolaCarattereControllo(String codice_fiscale_senza_controllo){
+    public char calcolaCarattereControllo(String codice_fiscale_senza_controllo){
         char [] codice_15_caratteri = codice_fiscale_senza_controllo.toCharArray();
         int resto, somma=0;
         for (int i=0; i<Costanti.DIM_CODICE_FISCALE-1; i++){
@@ -393,9 +390,7 @@ public class Persona {
         }
         resto = somma%26;
         char carattere_controllo = valoreCarattereControllo(resto);
-        String carattere_finale = "";
-        carattere_finale += carattere_controllo;
-        return carattere_finale;
+        return carattere_controllo;
     }
 
     /**
@@ -638,5 +633,9 @@ public class Persona {
                 //", codice_fiscale='" + codice_fiscale + '\'' +
                 ", codice_fiscale='" + this.calcolaCodiceFiscale()+'\''+
                 '}';
+
     }
+
+
 }
+
