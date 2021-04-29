@@ -638,5 +638,9 @@ public class Persona {
                 //", codice_fiscale='" + codice_fiscale + '\'' +
                 ", codice_fiscale='" + this.calcolaCodiceFiscale()+'\''+
                 '}';
+
     }
+
+
 }
+

@@ -7,7 +7,6 @@ public class Main {
         //Persona persona= new Persona('M', "2002-01-01");
         //System.out.println(persona.calcolaCaratteriNascita());
 
-        //PROVA: QUESTO MESSAGGIO DOVREBBE VEDERSI SOLO NEL BRANCH CARATTERILUOGO
 
         System.out.println("Ciao");
     }
