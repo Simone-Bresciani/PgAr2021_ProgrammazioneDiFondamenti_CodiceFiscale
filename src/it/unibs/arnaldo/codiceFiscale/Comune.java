@@ -31,10 +31,10 @@ public class Comune {
      * @param codice Una Stringa che rappresenta il codice identificativo del Comune da utilizzare per la generazione
      *               di un eventuale codice fiscale di un'istanza di classe {@link Persona}
      * */
-    public Comune(String nome, String codice) {
+    /*public Comune(String nome, String codice) {
         this.nome = nome;
         this.codice = codice;
-    }
+    }*/
 
     //Getters and Setters
 
@@ -46,12 +46,20 @@ public class Comune {
         return nome;
     }
 
+    public void setNome(String nome){
+        this.nome=nome;
+    }
+
     /**
      * Restituisce il codice identificativo del Comune
      * @return Una Stringa che specifica il codice identificativo del Comune.
      */
     public String getCodice() {
         return codice;
+    }
+
+    public void setCodice(String codice){
+        this.codice=codice;
     }
 
     //ToString

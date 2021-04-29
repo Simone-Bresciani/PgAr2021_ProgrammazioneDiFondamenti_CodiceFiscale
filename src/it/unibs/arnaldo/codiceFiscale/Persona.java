@@ -46,7 +46,7 @@ public class Persona {
      *
      * @see Comune
      * */
-    public Persona(String nome, String cognome, char sesso, String data_di_nascita, Comune comune_di_nascita) {
+    /*public Persona(String nome, String cognome, char sesso, String data_di_nascita, Comune comune_di_nascita) {
         this.nome = nome;
         this.cognome = cognome;
         this.sesso = sesso;
@@ -56,7 +56,7 @@ public class Persona {
         //this.codice_fiscale = codice_fiscale;
     }
 
-   /* public Persona(String _nome){
+    public Persona(String _nome){
         this.nome=_nome;
     }*/
 
@@ -631,7 +631,7 @@ public class Persona {
                 ", comune_di_nascita=" + comune_di_nascita +
                 //", carattere_controllo=" + carattere_controllo +
                 //", codice_fiscale='" + codice_fiscale + '\'' +
-                ", codice_fiscale='" + this.calcolaCodiceFiscale()+'\''+
+                //", codice_fiscale='" + this.calcolaCodiceFiscale()+'\''+
                 '}';
 
     }
