@@ -1,10 +1,8 @@
 package it.unibs.arnaldo.codiceFiscale;
 
 
-import javax.xml.stream.XMLInputFactory;
-import javax.xml.stream.XMLStreamConstants;
-import javax.xml.stream.XMLStreamException;
-import javax.xml.stream.XMLStreamReader;
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.stream.*;
 import java.io.*;
 import java.util.ArrayList;
 
@@ -21,6 +19,7 @@ public class ServizioFileXml {
     private static final String TAG_DATA="data_nascita";
     private static final String TAG_COMUNI="comune";
     private static final String TAG_CODICE_COMUNE="codice";
+    private static final String TAG_CODICE_FISCALE = "codice";
 
     public static ArrayList<Persona> leggiPersone(String filename){
         XMLInputFactory xmlif = null;
@@ -44,13 +43,17 @@ public class ServizioFileXml {
             while (xmlreader.hasNext()) { // continua a leggere finché ha eventi a disposizione
                 switch (xmlreader.getEventType()) { // switch sul tipo di evento
                     case XMLStreamConstants.START_DOCUMENT: // inizio del documento: stampa che inizia il documento
-                        System.out.println("Start Read Doc " + filename); break;
+                        System.out.println("Start Read Doc " + filename);
+                    break;
                     case XMLStreamConstants.START_ELEMENT: // inizio di un elemento: stampa il nome del tag e i suoi attributi
                         System.out.println("Tag " + xmlreader.getLocalName());
 
                         switch(xmlreader.getLocalName()){
-                            case TAG_PERSONA: persona=new Persona(); break;
-                            default: tag_attuale=xmlreader.getLocalName(); break;//si potrebbe migliorare sempre per sicurezza con i case..
+                            case TAG_PERSONA:
+                                persona=new Persona();
+                            break;
+                            default: tag_attuale = xmlreader.getLocalName();
+                            break;
                         }
 
                         for (int i = 0; i < xmlreader.getAttributeCount(); i++) {
@@ -61,24 +64,37 @@ public class ServizioFileXml {
                         System.out.println("END-Tag " + xmlreader.getLocalName());
                         tag_attuale=xmlreader.getLocalName();
                         if(tag_attuale.equals(TAG_PERSONA)){
+                            //aggiunta di una persona all'arraylist
                             persone.add(persona);
                         }
                         break;
                     case XMLStreamConstants.COMMENT:
-                        System.out.println("// commento " + xmlreader.getText()); break; // commento: ne stampa il contenuto
+                        System.out.println("// commento " + xmlreader.getText());
+                    break; // commento: ne stampa il contenuto
                     case XMLStreamConstants.CHARACTERS: // content all’interno di un elemento: stampa il testo
                         if (xmlreader.getText().trim().length() > 0){
                             // controlla se il testo non contiene solo spazi
                             System.out.println("-> " + xmlreader.getText());
 
                             switch (tag_attuale){
-                                case TAG_NOME: persona.setNome(xmlreader.getText()); break;
-                                case TAG_CONOME: persona.setCognome(xmlreader.getText()); break;
-                                case TAG_SESSO: char sex=xmlreader.getText().charAt(0);
-                                                persona.setSesso(sex);
-                                                break;
-                                case TAG_COMUNE: comune=new Comune();persona.setComune_di_nascita(comune); persona.getComune_di_nascita().setNome(xmlreader.getText()); break;
-                                case TAG_DATA: persona.setData_di_nascita(xmlreader.getText()); break;
+                                case TAG_NOME:
+                                    persona.setNome(xmlreader.getText());
+                                break;
+                                case TAG_CONOME:
+                                    persona.setCognome(xmlreader.getText());
+                                break;
+                                case TAG_SESSO:
+                                    char sex=xmlreader.getText().charAt(0);
+                                    persona.setSesso(sex);
+                                break;
+                                case TAG_COMUNE:
+                                    comune=new Comune();
+                                    persona.setComune_di_nascita(comune);
+                                    persona.getComune_di_nascita().setNome(xmlreader.getText());
+                                break;
+                                case TAG_DATA:
+                                    persona.setData_di_nascita(xmlreader.getText());
+                                break;
                             }
 
                             tag_attuale="";
@@ -93,7 +109,7 @@ public class ServizioFileXml {
         }
 
         //dato che la classe Persona aggrega Comune (solamente 1-->associazione semplice/aggregazione) e quest'ultima è caratterizzata da
-        ArrayList<Comune> comuni=leggiComuni("C:\\Users\\Mattia\\Desktop\\UNIVERSITA'\\1°ANNO-2°SEMESTRE\\JAVA,FONDAMENTI PROGRAMMAZIONE\\ARNALDO\\PgAr2021_ProgrammazioneDiFondamenti_CodiceFiscale\\src\\it\\unibs\\arnaldo\\codiceFiscale\\comuni.xml");
+        ArrayList<Comune> comuni=leggiComuni("../PgAr2021_ProgrammazioneDiFondamenti_CodiceFiscale/src/it/unibs/arnaldo/codiceFiscale/comuni.xml");
 
         for(Persona persona_da_valutare : persone){
             for(int i=0;i<comuni.size();i++){
@@ -109,7 +125,64 @@ public class ServizioFileXml {
         return persone;
     }
 
-    private static ArrayList<Comune> leggiComuni(String filename){
+    public static ArrayList<String> leggiCodiciFiscali(String filename){
+
+        XMLInputFactory xmlif = null;
+        XMLStreamReader xmlreader = null;
+        ArrayList<String> codici_fiscali = new ArrayList<String>();
+        String codice_fiscale = null;
+
+        //inizializzazione
+        try{
+            xmlif=XMLInputFactory.newInstance();
+            xmlreader= xmlif.createXMLStreamReader(filename, new FileInputStream(filename));
+        }catch(Exception e){
+            System.out.println(ERRORE_INIZIALIZZAZIONE_READER);
+            System.out.println(e.getMessage());
+        }
+
+        try{
+            while (xmlreader.hasNext()){
+
+                switch (xmlreader.getEventType()) {
+
+                    case XMLStreamConstants.START_DOCUMENT:
+                        System.out.println("Inizio lettura file: " + filename);
+                        break;
+
+                    case XMLStreamConstants.END_DOCUMENT:
+                        System.out.println("Chiusura file: " + filename);
+                        break;
+
+                    case XMLStreamConstants.START_ELEMENT:
+                        if (xmlreader.getLocalName() == TAG_CODICE_FISCALE) {
+                            System.out.print("codice: ");
+                        }
+                        break;
+
+                    case XMLStreamConstants.CHARACTERS:
+                        if (xmlreader.getText().trim().length() > 0) {
+                            codice_fiscale = xmlreader.getText();
+                            codici_fiscali.add(codice_fiscale);
+                            System.out.println(codice_fiscale);
+                        }
+                    break;
+
+                    case XMLStreamConstants.END_ELEMENT:
+                        System.out.println("chiusura elemento");
+                        break;
+                }
+                xmlreader.next();
+            }
+
+        }catch(XMLStreamException e){
+            System.out.println(String.format(ERRORE_LETTURA,filename));
+            System.out.println(e.getMessage());
+        }
+        return codici_fiscali;
+    }
+
+    public static ArrayList<Comune> leggiComuni(String filename){
         XMLInputFactory xmlif = null;
         XMLStreamReader xmlreader = null;
         ArrayList<Comune> comuni=new ArrayList<Comune>();
@@ -130,13 +203,17 @@ public class ServizioFileXml {
             while (xmlreader.hasNext()) { // continua a leggere finché ha eventi a disposizione
                 switch (xmlreader.getEventType()) { // switch sul tipo di evento
                     case XMLStreamConstants.START_DOCUMENT: // inizio del documento: stampa che inizia il documento
-                        System.out.println("Start Read Doc " + filename); break;
+                        System.out.println("Start Read Doc " + filename);
+                    break;
                     case XMLStreamConstants.START_ELEMENT: // inizio di un elemento: stampa il nome del tag e i suoi attributi
                         System.out.println("Tag " + xmlreader.getLocalName());
 
                         switch(xmlreader.getLocalName()){
-                            case TAG_COMUNI: comune=new Comune(); break;
-                            default: tag_attuale=xmlreader.getLocalName(); break;//si potrebbe migliorare sempre per sicurezza con i case..
+                            case TAG_COMUNI:
+                                comune=new Comune();
+                            break;
+                            default: tag_attuale=xmlreader.getLocalName();
+                            break;//si potrebbe migliorare sempre per sicurezza con i case..
                         }
 
                         for (int i = 0; i < xmlreader.getAttributeCount(); i++) {
@@ -151,15 +228,18 @@ public class ServizioFileXml {
                         }
                         break;
                     case XMLStreamConstants.COMMENT:
-                        System.out.println("// commento " + xmlreader.getText()); break; // commento: ne stampa il contenuto
+                        System.out.println("// commento " + xmlreader.getText());
+                    break; // commento: ne stampa il contenuto
                     case XMLStreamConstants.CHARACTERS: // content all’interno di un elemento: stampa il testo
                         if (xmlreader.getText().trim().length() > 0){
                             // controlla se il testo non contiene solo spazi
                             System.out.println("-> " + xmlreader.getText());
 
                             switch (tag_attuale){
-                                case TAG_NOME: comune.setNome(xmlreader.getText()); break;
-                                case TAG_CODICE_COMUNE: comune.setCodice(xmlreader.getText()); break;
+                                case TAG_NOME: comune.setNome(xmlreader.getText());
+                            break;
+                                case TAG_CODICE_COMUNE: comune.setCodice(xmlreader.getText());
+                            break;
                             }
 
                             tag_attuale="";
@@ -173,5 +253,65 @@ public class ServizioFileXml {
             System.out.println(e.getMessage());
         }
         return comuni;
+    }
+
+    public static void scritturaOutput(ArrayList<Persona> persone, ArrayList<String> codici_fiscali){
+
+        //inizializzazione
+        XMLOutputFactory xmlof = null;
+        XMLStreamWriter xmlw = null;
+        try {
+            xmlof = XMLOutputFactory.newInstance();
+            xmlw = xmlof.createXMLStreamWriter(new FileOutputStream("../PgAr2021_ProgrammazioneDiFondamenti_CodiceFiscale/src/it/unibs/arnaldo/codiceFiscale/codiciPersone.xml"), "utf-8");
+            xmlw.writeStartDocument("utf-8", "1.0");
+        } catch (Exception e) {
+            System.out.println("Errore nell'inizializzazione del writer:");
+            System.out.println(e.getMessage());
+        }
+
+        try { // blocco try per raccogliere eccezioni
+            xmlw.writeStartElement("output"); // scrittura del tag radice <output>
+            xmlw.writeStartElement("persone");
+            xmlw.writeAttribute("numero", String.valueOf(persone.size()));
+            for (int i = 0; i < persone.size(); i++) {
+                xmlw.writeStartElement("persona");
+                xmlw.writeAttribute("id", Integer.toString(i));
+                xmlw.writeEndElement();
+                xmlw.writeStartElement("nome");
+                xmlw.writeCharacters(persone.get(i).getNome());
+                xmlw.writeEndElement();
+                xmlw.writeStartElement("cognome");
+                xmlw.writeCharacters(persone.get(i).getCognome());
+                xmlw.writeEndElement();
+                xmlw.writeStartElement("sesso");
+                xmlw.writeCharacters(String.valueOf(persone.get(i).getSesso()));
+                xmlw.writeEndElement();
+                xmlw.writeStartElement("comune_nascita");
+                xmlw.writeCharacters(persone.get(i).getComune_di_nascita().getNome());
+                xmlw.writeEndElement();
+                xmlw.writeStartElement("data_nascita");
+                xmlw.writeCharacters(persone.get(i).getData_di_nascita());
+                xmlw.writeEndElement();
+                xmlw.writeStartElement("codice_fiscale");
+                int trovato =0;
+                for(int j=0; j<codici_fiscali.size() && trovato==0 ; j++){
+                    //controlla se il codice calcolato corrisponde ad un codice nel file
+                    if(persone.get(i).confrontaCodiciFiscali(codici_fiscali.get(j))) {
+                        xmlw.writeCharacters(persone.get(j).calcolaCodiceFiscale());
+                        trovato++;
+                    }
+                }
+                if(trovato == 0){
+                    xmlw.writeCharacters("ASSENTE");
+                }
+                xmlw.writeEndElement();
+            }
+            xmlw.writeEndElement(); // chiusura di </output>
+            xmlw.writeEndDocument(); // scrittura della fine del documento
+            xmlw.flush(); // svuota il buffer e procede alla scrittura
+            xmlw.close(); // chiusura del documento e delle risorse impiegate
+        } catch (Exception e) { // se c’è un errore viene eseguita questa parte
+            System.out.println("Errore nella scrittura");
+        }
     }
 }

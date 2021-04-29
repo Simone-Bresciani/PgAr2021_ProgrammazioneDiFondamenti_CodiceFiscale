@@ -56,15 +56,6 @@ public class Persona {
         //this.codice_fiscale = codice_fiscale;
     }
 
-    public Persona(String _nome){
-        this.nome=_nome;
-    }*/
-
-    /*
-    public Persona(char _sesso, String _data_di_nascita){
-        this.sesso = _sesso;
-        this.data_di_nascita = _data_di_nascita;
-    }*/
 
     //Getters and Setters
 
@@ -177,8 +168,8 @@ public class Persona {
         codice += calcolaLettereCognome();
         codice += calcolaLettereNome();
         codice += calcolaCaratteriNascita();
-        codice += calcolaCaratteriLuogo();
-        codice += calcolaCarattereControllo(codice);
+        codice += this.comune_di_nascita.getCodice();
+        codice += CodiceFiscale.calcolaCarattereControllo(codice);
         return codice;
     }
 
@@ -361,38 +352,6 @@ public class Persona {
 
         return data_di_nascita;
     }
-
-    /*
-     * Metodo privato utilizzato in concomitanza con calcolaCodiceFiscale().
-     * Il suo scopo è quello di determinare i 4 caratteri rapppresentantiil luogo di nascita all'interno del codice
-     * fiscale di un'istanza di classe Persona(di un individuo).
-     * Ritorna una stringa di quattro caratteri.
-     */
-    private String calcolaCaratteriLuogo(){
-        return this.comune_di_nascita.getCodice();
-    }
-
-    /*
-     * Metodo privato utilizzato in concomitanza con calcolaCodiceFiscale().
-     * Il suo scopo è quello di determinare il carattere di controllo presente all'interno di ogni codice
-     * fiscale di un'istanza di classe Persona(di un individuo) come ultimo carattere/lettera.
-     * Ritorna una stringa di un carattere./un char
-     */
-    public char calcolaCarattereControllo(String codice_fiscale_senza_controllo){
-        char [] codice_15_caratteri = codice_fiscale_senza_controllo.toCharArray();
-        int resto, somma=0;
-        for (int i=0; i<Costanti.DIM_CODICE_FISCALE-1; i++){
-            if(i%2 == 0){
-                somma += valoreControlloPari(codice_15_caratteri[i]);
-            }else if(i%2 != 0){
-                somma += valoreControlloDispari(codice_15_caratteri[i]);
-            }
-        }
-        resto = somma%26;
-        char carattere_controllo = valoreCarattereControllo(resto);
-        return carattere_controllo;
-    }
-
     /**
      * Confronata il codice fiscale di un'istanza di classe Persona sulla base di un dato codice fiscale.
      *
@@ -404,218 +363,7 @@ public class Persona {
         return this.calcolaCodiceFiscale().equals(codice_da_comparare);
     }
 
-    /*
-     * Metodo privato utilizzato in concomitanza con calcolaCarattereControllo().
-     * Il suo scopo è quello di determinare l'intero corrispondente ad un determinato char in posizione
-     * pari all'interno del "futuro" codice fiscale secondo una tabulazione fissata dal Ministero delle
-     * Finanze Italiano.
-     * Ritorna un intero necessario per la determinazione del carattere di controllo.
-     */
-    private int valoreControlloPari(char carattere){
 
-        if(Character.isDigit(carattere)){
-            return (int)carattere;
-        }
-
-        switch (carattere){
-
-            case 'A':
-                return 0;
-            case 'B':
-                return 1;
-            case 'C':
-                return 2;
-            case 'D':
-                return 3;
-            case 'E':
-                return 4;
-            case 'F':
-                return 5;
-            case 'G':
-                return 6;
-            case 'H':
-                return 7;
-            case 'I':
-                return 8;
-            case 'J':
-                return 9;
-            case 'K':
-                return 10;
-            case 'L':
-                return 11;
-            case 'M':
-                return 12;
-            case 'N':
-                return 13;
-            case 'O':
-                return 14;
-            case 'P':
-                return 15;
-            case 'Q':
-                return 16;
-            case 'R':
-                return 17;
-            case 'S':
-                return 18;
-            case 'T':
-                return 19;
-            case 'U':
-                return 20;
-            case 'V':
-                return 21;
-            case 'W':
-                return 22;
-            case 'X':
-                return 23;
-            case 'Y':
-                return 24;
-            case 'Z':
-                return 25;
-            default: return -1;
-        }
-    }
-
-    /*
-     * Metodo privato utilizzato in concomitanza con calcolaCarattereControllo().
-     * Il suo scopo è quello di determinare l'intero corrispondente ad un determinato char in posizione
-     * dispari all'interno del "futuro" codice fiscale secondo una tabulazione fissata dal Ministero delle
-     * Finanze Italiano.
-     * Ritorna un intero necessario per la determinazione del carattere di controllo.
-     */
-    private int valoreControlloDispari(char carattere){
-        switch (carattere){
-            case 'A':
-            case '0':
-                return 1;
-            case 'B':
-            case '1':
-                return 0;
-            case 'C':
-            case '2':
-                return 5;
-            case 'D':
-            case '3':
-                return 7;
-            case 'E':
-            case '4':
-                return 9;
-            case 'F':
-            case '5':
-                return 13;
-            case 'G':
-            case '6':
-                return 15;
-            case 'H':
-            case '7':
-                return 17;
-            case 'I':
-            case'8':
-                return 19;
-            case 'J':
-            case '9':
-                return 21;
-            case 'K':
-                return 2;
-            case 'L':
-                return 4;
-            case 'M':
-                return 18;
-            case 'N':
-                return 20;
-            case 'O':
-                return 11;
-            case 'P':
-                return 3;
-            case 'Q':
-                return 6;
-            case 'R':
-                return 8;
-            case 'S':
-                return 12;
-            case 'T':
-                return 14;
-            case 'U':
-                return 16;
-            case 'V':
-                return 10;
-            case 'W':
-                return 22;
-            case 'X':
-                return 25;
-            case 'Y':
-                return 24;
-            case 'Z':
-                return 23;
-            default: return -1;
-        }
-    }
-
-    /*
-     * Metodo privato utilizzato in concomitanza con calcolaCarattereControllo().
-     * Il suo scopo è quello di determinare il carattere corrispondente ad un determinato resto
-     * secondo una tabulazione fissata dal Ministero delle Finanze Italiano.
-     * Il suo utilizzo è logicamente corretto se posticipato all'uso di valoreControlloPari e valoreControlloDispari:
-     * il resto della divisione ottenuto in calcolaCarattereControllo,fornirà il codice identificativo, ottenuto da
-     * una tabella di conversione stabilita.
-     * Ritorna un char necessario che determina il carattere di controllo.
-     */
-    private char valoreCarattereControllo(int resto){
-        switch (resto){
-            case 0:
-                return 'A';
-            case 1:
-                return 'B';
-            case 2:
-                return 'C';
-            case 3:
-                return 'D';
-            case 4:
-                return 'E';
-            case 5:
-                return 'F';
-            case 6:
-                return 'G';
-            case 7:
-                return 'H';
-            case 8:
-                return 'I';
-            case 9:
-                return 'J';
-            case 10:
-                return 'K';
-            case 11:
-                return 'L';
-            case 12:
-                return 'M';
-            case 13:
-                return 'N';
-            case 14:
-                return 'O';
-            case 15:
-                return 'P';
-            case 16:
-                return 'Q';
-            case 17:
-                return 'R';
-            case 18:
-                return 'S';
-            case 19:
-                return 'T';
-            case 20:
-                return 'U';
-            case 21:
-                return 'V';
-            case 22:
-                return 'W';
-            case 23:
-                return 'X';
-            case 24:
-                return 'Y';
-            case 25:
-                return 'Z';
-            default: return '0';
-        }
-    }
 
     /**
      * Restituisce una stringa descrittiva di un'istanza della classe Persona
