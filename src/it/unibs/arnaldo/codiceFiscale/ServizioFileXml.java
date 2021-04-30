@@ -271,41 +271,42 @@ public class ServizioFileXml {
 
         try { // blocco try per raccogliere eccezioni
             xmlw.writeStartElement("output"); // scrittura del tag radice <output>
-            xmlw.writeStartElement("persone");
-            xmlw.writeAttribute("numero", String.valueOf(persone.size()));
-            for (int i = 0; i < persone.size(); i++) {
-                xmlw.writeStartElement("persona");
-                xmlw.writeAttribute("id", Integer.toString(i));
-                xmlw.writeEndElement();
-                xmlw.writeStartElement("nome");
-                xmlw.writeCharacters(persone.get(i).getNome());
-                xmlw.writeEndElement();
-                xmlw.writeStartElement("cognome");
-                xmlw.writeCharacters(persone.get(i).getCognome());
-                xmlw.writeEndElement();
-                xmlw.writeStartElement("sesso");
-                xmlw.writeCharacters(String.valueOf(persone.get(i).getSesso()));
-                xmlw.writeEndElement();
-                xmlw.writeStartElement("comune_nascita");
-                xmlw.writeCharacters(persone.get(i).getComune_di_nascita().getNome());
-                xmlw.writeEndElement();
-                xmlw.writeStartElement("data_nascita");
-                xmlw.writeCharacters(persone.get(i).getData_di_nascita());
-                xmlw.writeEndElement();
-                xmlw.writeStartElement("codice_fiscale");
-                int trovato =0;
-                for(int j=0; j<codici_fiscali.size() && trovato==0 ; j++){
-                    //controlla se il codice calcolato corrisponde ad un codice nel file
-                    if(persone.get(i).confrontaCodiciFiscali(codici_fiscali.get(j))) {
-                        xmlw.writeCharacters(persone.get(j).calcolaCodiceFiscale());
-                        trovato++;
+                xmlw.writeStartElement("persone");
+                xmlw.writeAttribute("numero", String.valueOf(persone.size()));
+                    for (int i = 0; i < persone.size(); i++) {
+                        int trovato =0;
+                        xmlw.writeStartElement("persona"); //apre persona
+                        xmlw.writeAttribute("id", Integer.toString(i)); // attributo persona
+                            xmlw.writeStartElement("nome");
+                            xmlw.writeCharacters(persone.get(i).getNome());
+                            xmlw.writeEndElement();
+                            xmlw.writeStartElement("cognome");
+                            xmlw.writeCharacters(persone.get(i).getCognome());
+                            xmlw.writeEndElement();
+                            xmlw.writeStartElement("sesso");
+                            xmlw.writeCharacters(String.valueOf(persone.get(i).getSesso()));
+                            xmlw.writeEndElement();
+                            xmlw.writeStartElement("comune_nascita");
+                            xmlw.writeCharacters(persone.get(i).getComune_di_nascita().getNome());
+                            xmlw.writeEndElement();
+                            xmlw.writeStartElement("data_nascita");
+                            xmlw.writeCharacters(persone.get(i).getData_di_nascita());
+                            xmlw.writeEndElement();
+                            xmlw.writeStartElement("codice_fiscale");
+                            for(int j=0; j<codici_fiscali.size() && trovato==0 ; j++){
+                                //controlla se il codice calcolato corrisponde ad un codice nel file
+                                if(persone.get(i).confrontaCodiciFiscali(codici_fiscali.get(j))) {
+                                    xmlw.writeCharacters(persone.get(i).calcolaCodiceFiscale());
+                                    trovato=1;
+                                }
+                            }
+                            if(trovato == 0){
+                                xmlw.writeCharacters("ASSENTE");
+                            }
+                            xmlw.writeEndElement();//chiude codice fiscale
+                        xmlw.writeEndElement(); // chiude persona
                     }
-                }
-                if(trovato == 0){
-                    xmlw.writeCharacters("ASSENTE");
-                }
-                xmlw.writeEndElement();
-            }
+                xmlw.writeEndElement(); //chiude persone
             xmlw.writeEndElement(); // chiusura di </output>
             xmlw.writeEndDocument(); // scrittura della fine del documento
             xmlw.flush(); // svuota il buffer e procede alla scrittura

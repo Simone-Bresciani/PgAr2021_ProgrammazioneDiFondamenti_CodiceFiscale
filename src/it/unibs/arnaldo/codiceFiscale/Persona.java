@@ -28,7 +28,15 @@ public class Persona {
     //private char carattere_controllo;
     private String codice_fiscale;
 
-    //costruttore
+
+    //costruttore vuoto
+    public Persona(){
+        this.nome = null;
+        this.cognome =null;
+        this.comune_di_nascita = null;
+        this.data_di_nascita =null;
+        this.codice_fiscale = null;
+    }
     /**
      * <h5>Descrizione Costruttore Classe:</h5>
      *  <p>
@@ -46,14 +54,13 @@ public class Persona {
      *
      * @see Comune
      * */
-    /*public Persona(String nome, String cognome, char sesso, String data_di_nascita, Comune comune_di_nascita) {
+    public Persona(String nome, String cognome, char sesso, String data_di_nascita, Comune comune_di_nascita) {
         this.nome = nome;
         this.cognome = cognome;
         this.sesso = sesso;
         this.data_di_nascita = data_di_nascita;
         this.comune_di_nascita = comune_di_nascita;
-        //this.carattere_controllo = carattere_controllo;
-        //this.codice_fiscale = codice_fiscale;
+        this.codice_fiscale = calcolaCodiceFiscale();
     }
 
 
@@ -170,6 +177,7 @@ public class Persona {
         codice += calcolaCaratteriNascita();
         codice += this.comune_di_nascita.getCodice();
         codice += CodiceFiscale.calcolaCarattereControllo(codice);
+        this.codice_fiscale = codice;
         return codice;
     }
 
@@ -360,7 +368,7 @@ public class Persona {
      *          sono identici, <strong>false</strong> altrimenti.
      * */
     public boolean confrontaCodiciFiscali(String codice_da_comparare){
-        return this.calcolaCodiceFiscale().equals(codice_da_comparare);
+        return (this.calcolaCodiceFiscale().equals(codice_da_comparare));
     }
 
 
