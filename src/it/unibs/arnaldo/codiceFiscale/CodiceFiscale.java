@@ -25,7 +25,8 @@ public class CodiceFiscale {
 
     /**
      * Metodo che controlla se le prime 6 cifre del codice fiscale, corrispondenti al nome e cognome, sono effettivamente vocali o consonanti.
-     * @return
+     * @param nome_cognome Una Stringa rappresentante il cognome all'interno di un ipotetico codice fiscale
+     * @return true/false Boolean in base a se l'argomento al metodo risulta essere compost da lettere
      */
     private static boolean controllaNomeCognome(String nome_cognome){
 
@@ -119,13 +120,15 @@ public class CodiceFiscale {
      */
     public static char calcolaCarattereControllo(String codice_fiscale_senza_controllo){
         char [] codice_15_caratteri = codice_fiscale_senza_controllo.toCharArray();
+       // System.out.println(codice_fiscale_senza_controllo);
         int resto, somma=0;
         for (int i=0; i<Costanti.DIM_CODICE_FISCALE-1; i++){
-            if(i%2 == 0){
+            if(i%2 != 0){
                 somma += valoreControlloPari(codice_15_caratteri[i]);
-            }else if(i%2 != 0){
+            }else if(i%2 == 0){
                 somma += valoreControlloDispari(codice_15_caratteri[i]);
             }
+            //System.out.println("Somma: "+somma);
         }
         resto = somma%26;
         char carattere_controllo = valoreCarattereControllo(resto);
@@ -142,7 +145,8 @@ public class CodiceFiscale {
     private static int valoreControlloPari(char carattere){
 
         if(Character.isDigit(carattere)){
-            return (int)carattere;
+            int num=Integer.parseInt(""+carattere);
+            return num;
         }
 
         switch (carattere){

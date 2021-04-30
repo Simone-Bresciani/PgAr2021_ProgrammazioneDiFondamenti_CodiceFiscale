@@ -16,6 +16,8 @@ public class Main {
         //Stampo l'xml di output
         ServizioFileXml.scritturaOutput(persone, codici_fiscali);
 
+
+
         //STAMPA ARRAYLIST PERSONA
         /*
         System.out.println(persone.size());

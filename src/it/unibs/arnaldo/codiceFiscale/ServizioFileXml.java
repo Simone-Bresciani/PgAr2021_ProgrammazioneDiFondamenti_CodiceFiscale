@@ -257,7 +257,7 @@ public class ServizioFileXml {
 
 
 
-    public static void scritturaOutput(ArrayList<Persona> persone, ArrayList<String> codici_fiscali){
+    public static ArrayList<String> scritturaOutput(ArrayList<Persona> persone, ArrayList<String> codici_fiscali){
 
         //inizializzazione
         XMLOutputFactory xmlof = null;
@@ -320,7 +320,7 @@ public class ServizioFileXml {
                     }
                 xmlw.writeEndElement(); //chiude persone
 
-            /*
+
                 //ciclo tutti i codici fiscali per cercare quelli invalidi
                 for (int i=0; i<codici_fiscali.size(); i++) {
                     //se il codice non è valido lo salvo nell'array
@@ -328,7 +328,7 @@ public class ServizioFileXml {
                         codici_non_validi.add(codici_fiscali.get(i));
                     }
                 }
-*/
+
                 //ciclo tutti i codici fiscali per carcare quelli validi ma spaiati
                 for (int i=0; i<codici_fiscali.size(); i++){
                     //se il codice è valido ma non appartiene ai codici appaiati lo aggiungo all'arraylist di quelli  spaiati
