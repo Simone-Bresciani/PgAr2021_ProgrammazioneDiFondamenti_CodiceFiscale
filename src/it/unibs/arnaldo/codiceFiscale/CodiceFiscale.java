@@ -11,6 +11,11 @@ public class CodiceFiscale {
      * @return true se il codice fiscale è valido ipotetcamente
      */
     public static boolean validaCodiceFiscale(String codice_fiscale){
+
+        if(codice_fiscale.length() != Costanti.DIM_CODICE_FISCALE){
+            return false;
+        }
+
         String nome_cognome = codice_fiscale.substring(0,6);
         String anno_di_nascita = codice_fiscale.substring(6,8);
         char mese_di_nascita = codice_fiscale.charAt(8);
@@ -348,5 +353,4 @@ public class CodiceFiscale {
             default: return '0';
         }
     }
-
 }
