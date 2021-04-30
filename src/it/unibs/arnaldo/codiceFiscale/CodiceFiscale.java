@@ -5,15 +5,13 @@ import mylib.ControlloDati;
 //tutti metodi public static, gli passiamo un
 
 public class CodiceFiscale {
-
-
     /**
      * Metodo che divide la stringa in sottostringhe e va a richiamare i metodi corretti per il controllo di tutte le sottostringhe
      * @param codice_fiscale
      * @return true se il codice fiscale è valido ipotetcamente
      */
     public static boolean validaCodiceFiscale(String codice_fiscale){
-        String nome_cognome = codice_fiscale.substring(0,5);
+        String nome_cognome = codice_fiscale.substring(0,6);
         String anno_di_nascita = codice_fiscale.substring(6,8);
         char mese_di_nascita = codice_fiscale.charAt(8);
         String giorno_di_nascita = codice_fiscale.substring(9,11);

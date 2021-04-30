@@ -320,21 +320,24 @@ public class ServizioFileXml {
                     }
                 xmlw.writeEndElement(); //chiude persone
 
+            /*
+                //ciclo tutti i codici fiscali per cercare quelli invalidi
+                for (int i=0; i<codici_fiscali.size(); i++) {
+                    //se il codice non è valido lo salvo nell'array
+                    if (!CodiceFiscale.validaCodiceFiscale(codici_fiscali.get(i))) {
+                        codici_non_validi.add(codici_fiscali.get(i));
+                    }
+                }
+*/
+                //ciclo tutti i codici fiscali per carcare quelli validi ma spaiati
+                for (int i=0; i<codici_fiscali.size(); i++){
+                    //se il codice è valido ma non appartiene ai codici appaiati lo aggiungo all'arraylist di quelli  spaiati
+                    if(!codici_non_validi.contains(codici_fiscali.get(i)) && !codici_appaiati.contains(codici_fiscali.get(i))){
+                        codici_non_appaiati.add(codici_fiscali.get(i));
+                    }
+                }
+
                 xmlw.writeStartElement("codici");//aperura codici
-                    //ciclo tutti i codici fiscali per cercare quelli invalidi
-                    for (int i=0; i<codici_fiscali.size(); i++){
-                        //se il codice non è valido lo salvo nell'array
-                        if(!CodiceFiscale.validaCodiceFiscale(codici_fiscali.get(i))){
-                            codici_non_validi.add(codici_fiscali.get(i));
-                        }
-                    }
-                    //ciclo tutti i codici fiscali per carcare quelli validi ma spaiati
-                    for (int i=0; i<codici_fiscali.size(); i++){
-                        //se il codice è valido ma non appartiene ai codici appaiati lo aggiungo all'arraylist di quelli  spaiati
-                        if(!codici_non_validi.contains(codici_fiscali.get(i)) && !codici_appaiati.contains(codici_fiscali.get(i))){
-                            codici_non_appaiati.add(codici_fiscali.get(i));
-                        }
-                    }
                     xmlw.writeStartElement("invalidi"); // apertura invalidi
                     xmlw.writeAttribute("numero", String.valueOf(codici_non_validi.size()));
                         for (int i=0; i<codici_non_validi.size(); i++){
@@ -344,6 +347,7 @@ public class ServizioFileXml {
                         }
                     xmlw.writeEndElement(); //chiusura invalidi
                     xmlw.writeStartElement("spaiati");//apertura spaiati
+                    xmlw.writeAttribute("numero", String.valueOf(codici_non_validi.size()));
                         for (int i=0; i<codici_non_appaiati.size(); i++){
                             xmlw.writeStartElement("codice"); //apertura codice
                                 xmlw.writeCharacters(codici_non_appaiati.get(i));
@@ -351,6 +355,8 @@ public class ServizioFileXml {
                         }
                     xmlw.writeEndElement();//chiusura spaiati
                 xmlw.writeEndElement();//chiusura codici
+
+
             xmlw.writeEndElement(); // chiusura di </output>
             xmlw.writeEndDocument(); // scrittura della fine del documento
             xmlw.flush(); // svuota il buffer e procede alla scrittura
