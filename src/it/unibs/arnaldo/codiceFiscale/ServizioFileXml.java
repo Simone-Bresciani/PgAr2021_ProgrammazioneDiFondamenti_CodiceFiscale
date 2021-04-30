@@ -255,6 +255,8 @@ public class ServizioFileXml {
         return comuni;
     }
 
+
+
     public static void scritturaOutput(ArrayList<Persona> persone, ArrayList<String> codici_fiscali){
 
         //inizializzazione
@@ -269,12 +271,17 @@ public class ServizioFileXml {
             System.out.println(e.getMessage());
         }
 
-        try { // blocco try per raccogliere eccezioni
+        try {
+            //creo array list per i codici non validi
+            ArrayList<String> codici_non_validi = new ArrayList<String>();
+            //creo un arraylist per i codici appaiati
+            ArrayList<String> codici_appaiati = new ArrayList<String>();
+            //creo un arraylist per i codici validi ma non appaiati
+            ArrayList<String> codici_non_appaiati = new ArrayList<String>();
             xmlw.writeStartElement("output"); // scrittura del tag radice <output>
                 xmlw.writeStartElement("persone");
                 xmlw.writeAttribute("numero", String.valueOf(persone.size()));
                     for (int i = 0; i < persone.size(); i++) {
-                        int trovato =0;
                         xmlw.writeStartElement("persona"); //apre persona
                         xmlw.writeAttribute("id", Integer.toString(i)); // attributo persona
                             xmlw.writeStartElement("nome");
@@ -293,20 +300,57 @@ public class ServizioFileXml {
                             xmlw.writeCharacters(persone.get(i).getData_di_nascita());
                             xmlw.writeEndElement();
                             xmlw.writeStartElement("codice_fiscale");
+                            int trovato =0; //flag che serve per stabilire quando trovo corrispondenza tra il codice calcolato e quelllo del file
                             for(int j=0; j<codici_fiscali.size() && trovato==0 ; j++){
                                 //controlla se il codice calcolato corrisponde ad un codice nel file
                                 if(persone.get(i).confrontaCodiciFiscali(codici_fiscali.get(j))) {
+                                    //scrive il codice fiscale
                                     xmlw.writeCharacters(persone.get(i).calcolaCodiceFiscale());
                                     trovato=1;
+                                    //aggiungo il codice fiscale all'array list dei codici appaiati
+                                    codici_appaiati.add(codici_fiscali.get(j));
                                 }
                             }
                             if(trovato == 0){
+                                //se il flag per controllare se è stato trovato il codice nel file è uguale a zero, scrive assente
                                 xmlw.writeCharacters("ASSENTE");
                             }
                             xmlw.writeEndElement();//chiude codice fiscale
                         xmlw.writeEndElement(); // chiude persona
                     }
                 xmlw.writeEndElement(); //chiude persone
+
+                xmlw.writeStartElement("codici");//aperura codici
+                    //ciclo tutti i codici fiscali per cercare quelli invalidi
+                    for (int i=0; i<codici_fiscali.size(); i++){
+                        //se il codice non è valido lo salvo nell'array
+                        if(!CodiceFiscale.validaCodiceFiscale(codici_fiscali.get(i))){
+                            codici_non_validi.add(codici_fiscali.get(i));
+                        }
+                    }
+                    //ciclo tutti i codici fiscali per carcare quelli validi ma spaiati
+                    for (int i=0; i<codici_fiscali.size(); i++){
+                        //se il codice è valido ma non appartiene ai codici appaiati lo aggiungo all'arraylist di quelli  spaiati
+                        if(!codici_non_validi.contains(codici_fiscali.get(i)) && !codici_appaiati.contains(codici_fiscali.get(i))){
+                            codici_non_appaiati.add(codici_fiscali.get(i));
+                        }
+                    }
+                    xmlw.writeStartElement("invalidi"); // apertura invalidi
+                    xmlw.writeAttribute("numero", String.valueOf(codici_non_validi.size()));
+                        for (int i=0; i<codici_non_validi.size(); i++){
+                            xmlw.writeStartElement("codice"); //apertura codice
+                                xmlw.writeCharacters(codici_non_validi.get(i));
+                            xmlw.writeStartElement("codice"); //chiusura codice
+                        }
+                    xmlw.writeEndElement(); //chiusura invalidi
+                    xmlw.writeStartElement("spaiati");//apertura spaiati
+                        for (int i=0; i<codici_non_appaiati.size(); i++){
+                            xmlw.writeStartElement("codice"); //apertura codice
+                                xmlw.writeCharacters(codici_non_appaiati.get(i));
+                            xmlw.writeStartElement("codice"); //chiusura codice
+                        }
+                    xmlw.writeEndElement();//chiusura spaiati
+                xmlw.writeEndElement();//chiusura codici
             xmlw.writeEndElement(); // chiusura di </output>
             xmlw.writeEndDocument(); // scrittura della fine del documento
             xmlw.flush(); // svuota il buffer e procede alla scrittura
