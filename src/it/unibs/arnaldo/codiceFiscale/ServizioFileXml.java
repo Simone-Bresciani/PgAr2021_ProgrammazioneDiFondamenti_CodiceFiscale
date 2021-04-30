@@ -348,7 +348,7 @@ public class ServizioFileXml {
                         codici_non_appaiati.add(codici_fiscali.get(i));
                     }
                 }
-                System.out.println("SIZE di appaiati,non validi,spaiati: "+codici_appaiati.size()+" "+codici_non_validi.size()+" "+codici_non_appaiati.size());
+                System.out.println("SIZE di appaiati,non validi,spaiati: "+codici_appaiati.size()+" "+codici_non_validi.size()+" "+codici_non_appaiati.size()+" "+cont);
 
                 xmlw.writeStartElement("codici");//aperura codici
                     xmlw.writeStartElement("invalidi"); // apertura invalidi
