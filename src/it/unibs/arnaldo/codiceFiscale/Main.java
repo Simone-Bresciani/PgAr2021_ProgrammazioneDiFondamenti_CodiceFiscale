@@ -13,21 +13,8 @@ public class Main {
         //Creo un array di stringhe di codici fiscali mediante il metodo della lettura dell'Xml
         ArrayList<String> codici_fiscali = ServizioFileXml.leggiCodiciFiscali("../PgAr2021_ProgrammazioneDiFondamenti_CodiceFiscale/src/it/unibs/arnaldo/codiceFiscale/codiciFiscali.xml");
 
-
+        //Stampo l'xml di output
         ServizioFileXml.scritturaOutput(persone, codici_fiscali);
-
-        //METODO CHE DOVREMO SCRIVERE NEL XML WRITER
-        /*
-        for(int i=0;i<persone.size();i++){
-            for(int j=0; j<codici_fiscali.size(); j++){
-                if(persone.get(i).confrontaCodiciFiscali(codici_fiscali.get(j)){
-                    persone.get(i).set
-                }
-            }
-
-
-        }
-        */
 
         //STAMPA ARRAYLIST PERSONA
         /*
